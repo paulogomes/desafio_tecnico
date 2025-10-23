@@ -548,11 +548,11 @@ select
 		u.id as user_id,
 		(select count(c.id) from carts c where c.user_id = u.id) as total_carts,
 		count(distinct p.id) as total_products,
-		(select avg(qty) from ( select ci.cart_id, count(*) qty from carts c join cart_items ci on c.id = ci.cart_id where c.user_id = u.id group by ci.cart_id ) ) as avg_products_per_cart,
+		IFNULL((select avg(qty) from ( select ci.cart_id, count(*) qty from carts c join cart_items ci on c.id = ci.cart_id where c.user_id = u.id group by ci.cart_id ) ), '0') as avg_products_per_cart,
 		count(distinct p.category) as distinct_categories,
-		max(p.price) as most_expensive_product,
-		sum(p.price) as total_value,
-		sum(p.price * ci.quantity) as total_value_with_qty -- adicionei esse campo multiplicando o valor pela quantidade de itens. Para ficar mais realista
+		IFNULL(max(p.price), '0') as most_expensive_product,
+		IFNULL(sum(p.price), '0') as total_value,
+		IFNULL(sum(p.price * ci.quantity), '0') as total_value_with_qty -- adicionei esse campo multiplicando o valor pela quantidade de itens. Para ficar mais realista
 from users u
 left join carts c on u.id = c.user_id
 left join cart_items ci on c.id = ci.cart_id
