@@ -40,3 +40,5 @@ git clone https://github.com/paulogomes/desafio_tecnico.git
 ```console
 C:\path\to\PDI\kitchen.bat /file:C:\path\projeto\Job_fakestoreapi.kjb /level:Basic
 ```
+
+- Depois de executado o Job, será gerado o banco de dados na mesma pasta do projeto com o nome "db.sqlite"
